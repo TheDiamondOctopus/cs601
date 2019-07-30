@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Carryout</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous">
+    </script>
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+        }
+
+        .navbar, .nav-link {
+            color: white;
+        }
+
+        .zipcode {
+            margin: 2rem;
+            margin-bottom: 5rem;
+        }
+
+        .continue-btn {
+            margin: 2rem;
+            margin-left: 17rem;
+        }
+
+        .carryout-locations {
+            margin: 4rem;
+            margin-left: 17rem;
+        }
+
+        .location-header {
+            font-size: 2.5rem;
+        }
+
+        .state {
+            margin-top: 2rem;
+            font-size: 1.5rem;
+        }
+
+        .form-check {
+            margin-top: 1rem;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <span>Carryout</span>
+        <a href="index.html" class="nav-link">Home</a>
+    </nav>
+    <!-- <div class="zipcode">
+        <label>Zipcode:</label>
+        <input type="text">
+    </div> -->
+    <div class="carryout-locations">
+        <div class="location-header">Locations</div>
+        <div class="state">Massachusetts</div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="locations" id="location1" value="23 Madeup Avenue" checked>
+            <label>23 Madeup Avenue, Boston</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="locations" id="location2" value="98 Doesnotexist Street">
+            <label>98 Doesnotexist Street, Cambridge</label>
+        </div>
+    </div>
+
+    <div class="continue-btn">
+        <a id="continue-btn" href="pizzaorderingpage.html" class="btn btn-primary">Continue</a>
+    </div>
+
+    <script>
+        function storageAvailable(type) {
+            var storage;
+            try {
+                storage = window[type];
+                var x = '__storage_test__';
+                storage.setItem(x, x);
+                storage.removeItem(x);
+                return true;
+            }
+            catch(e) {
+                return e instanceof DOMException && (
+                    // everything except Firefox
+                    e.code === 22 ||
+                    // Firefox
+                    e.code === 1014 ||
+                    // test name field too, because code might not be present
+                    // everything except Firefox
+                    e.name === 'QuotaExceededError' ||
+                    // Firefox
+                    e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+                    // acknowledge QuotaExceededError only if there's something already stored
+                    (storage && storage.length !== 0);
+            }
+        }
+
+        if (storageAvailable('sessionStorage')) {
+            document.querySelector("#continue-btn").addEventListener("click", (event)=> {
+                let radioValue = $("input[name='locations']:checked").val();
+                sessionStorage.setItem('carryout-location', radioValue);
+            }
+        )}
+        else {
+            // Too bad, no sessionStorage for us
+            console.log("no bueno :(")
+            }
+    </script>
+</body>
+</html>

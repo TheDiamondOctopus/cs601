@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Checkout</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+        }
+
+        .navbar, .nav-link {
+            color: white;
+        }
+
+        .complete-checkout-btn {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            margin: 1rem;
+        }
+
+        .payment-box {
+            margin-left: 10rem;
+            margin-top: 3rem;
+        }
+
+        .payment-box-row {
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .payment-box-header {
+            font-size: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        #clear-all-btn {
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <span>Checkout</span>
+        <a href="index.html" class="nav-link">Home</a>
+    </nav>
+
+    <div class="payment-box-header">Payment Information</div>
+
+    <div class="payment-box">
+    <!--credit for code between below comment goes to: https://getbootstrap.com/docs/4.0/examples/checkout/-->
+        <div class="payment-box-row">
+            <div class="col-md-6 mb-3">
+              <label for="cc-name">Name on card</label>
+              <input type="text" class="form-control" id="cc-name" placeholder="" required="">
+              <small class="text-muted">Full name as displayed on card</small>
+            </div>
+        </div>
+        <div class="payment-box-row">
+            <div class="col-md-6 mb-3">
+              <label for="cc-number">Credit card number</label>
+              <input type="text" class="form-control" id="cc-number" placeholder="" required="">
+            </div>
+        </div>
+        <div class="payment-box-row">
+            <div class="col-md-3 mb-3">
+                <label for="cc-expiration">Expiration</label>
+                <input type="text" class="form-control" id="cc-expiration" placeholder="" required="">
+            </div>
+        </div>
+        <div class="payment-box-row">
+            <div class="col-md-3 mb-3">
+                <label for="cc-expiration">CVV</label>
+                <input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
+            </div>
+        </div>
+    </div>
+    <!--credit for code between above comment goes to: https://getbootstrap.com/docs/4.0/examples/checkout/-->
+
+    <div class="complete-checkout-btn">
+            <button id="clear-all-btn" type="button" class="btn btn-danger clear-btn">Clear All</button>
+            <a href="ordercompletepage.html" class="btn btn-primary">Complete Checkout</a>
+    </div>
+
+    <script>
+        function storageAvailable(type) {
+            var storage;
+            try {
+                storage = window[type];
+                var x = '__storage_test__';
+                storage.setItem(x, x);
+                storage.removeItem(x);
+                return true;
+            }
+            catch(e) {
+                return e instanceof DOMException && (
+                    // everything except Firefox
+                    e.code === 22 ||
+                    // Firefox
+                    e.code === 1014 ||
+                    // test name field too, because code might not be present
+                    // everything except Firefox
+                    e.name === 'QuotaExceededError' ||
+                    // Firefox
+                    e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+                    // acknowledge QuotaExceededError only if there's something already stored
+                    (storage && storage.length !== 0);
+            }
+        }
+
+        let field1 = document.getElementById("cc-name");
+        let field2 = document.getElementById("cc-number");
+        let field3 = document.getElementById("cc-expiration");
+        let field4 = document.getElementById("cc-cvv");
+
+        if (storageAvailable('sessionStorage')) {
+            //clear all button, clears all of the text fields
+            document.querySelector("#clear-all-btn").addEventListener("click", (event) => {
+                document.querySelector("#cc-name").value = "";
+                document.querySelector("#cc-number").value = "";
+                document.querySelector("#cc-expiration").value = "";
+                document.querySelector("#cc-cvv").value = "";
+
+
+                //deleting the text field values from session storage
+                if(sessionStorage.getItem('cc-name-key')){
+                    sessionStorage.removeItem('cc-name-key');
+                };
+                if(sessionStorage.getItem('cc-number-key')){
+                    sessionStorage.removeItem('cc-number-key');
+                };
+                if(sessionStorage.getItem('cc-expiration-key')){
+                    sessionStorage.removeItem('cc-expiration-key');
+                };
+                if(sessionStorage.getItem('cc-cvv-key')){
+                    sessionStorage.removeItem('cc-cvv-key');
+                };
+            });
+            
+            // See if we have an autosave value
+            // (this will only happen if the page is accidentally refreshed)
+            if (sessionStorage.getItem("cc-name-key")) {
+                // Restore the contents of the text field
+                field1.value = sessionStorage.getItem("cc-name-key");
+            }
+
+            if (sessionStorage.getItem("cc-number-key")) {
+                // Restore the contents of the text field
+                field2.value = sessionStorage.getItem("cc-number-key");
+            }
+
+            if (sessionStorage.getItem("cc-expiration-key")) {
+                // Restore the contents of the text field
+                field3.value = sessionStorage.getItem("cc-expiration-key");
+            }
+
+            if (sessionStorage.getItem("cc-cvv-key")) {
+                // Restore the contents of the text field
+                field4.value = sessionStorage.getItem("cc-cvv-key");
+            }
+
+            
+            // Listen for changes in the text field
+            field1.addEventListener("change", function() {
+                // And save the results into the session storage object
+                sessionStorage.setItem("cc-name-key", field1.value);
+            });
+
+            field2.addEventListener("change", function() {
+                // And save the results into the session storage object
+                sessionStorage.setItem("cc-number-key", field2.value);
+            });
+
+            field3.addEventListener("change", function() {
+                // And save the results into the session storage object
+                sessionStorage.setItem("cc-expiration-key", field3.value);
+            });
+
+            field4.addEventListener("change", function() {
+                // And save the results into the session storage object
+                sessionStorage.setItem("cc-cvv-key", field4.value);
+            });
+
+        }
+        else {
+        // Too bad, no sessionStorage for us
+        console.log("no bueno :(")
+        }
+    </script>
+</body>
+</html>

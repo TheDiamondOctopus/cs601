@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Order Complete</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+        }
+
+        .navbar, .nav-link {
+            color: white;
+        }
+
+        .new-order-btn {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            margin: 1rem;
+        }
+
+        .order-complete-header {
+            font-size: 2.5rem;
+            text-align: center;
+        }
+        
+
+        .cart-ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 1rem;
+        }
+
+        .cart-item {
+            font-size: 1rem;
+        }
+
+        .li-span-pizza-type, .li-span-pizza-size, .li-span-pizza-qty {
+            margin: 0.5rem;
+        }   
+
+        .li-span-dollar-sign {
+            margin-left: 1rem;
+        }
+
+        .cost-div, .qty-div {
+            display: inline;
+            margin: 1rem;
+        }
+
+        .pizza-type-span {
+            margin: 1rem;
+        }
+
+        .order-body {
+            margin-left: 10rem;
+            margin-top: 3rem;
+        }
+
+        .items-header {
+            font-size: 1.5rem;
+            font-family: 'Raleway', sans-serif;
+        }
+
+        .dollar-sign-span {
+            margin-left: 8rem;
+        }
+
+        .total-cost, .customer-name, .cc-last-four-digits, .delivery-address-header, .carryout-address-header {
+            font-size: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .ordered-by-span, .cc-last-four {
+            margin-right: 1rem;
+        }
+
+        #carryout-content, #delivery-content {
+            font-size: 1.5rem;
+        }
+
+        .show {
+            display: block;
+        }
+
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <span>Order is Complete</span>
+        <a href="index.html" class="nav-link">Home</a>
+    </nav>
+
+    <div class="order-complete-header">Your Order is Complete</div>
+
+    <div class="order-body">
+        <h1 class="items-header">Items:</h1>
+        <ul class="cart-ul">
+            <!-- <li class="cart-item"> ****TEMPLATE, DO NOT ERASE****
+                <span class="li-span-pizza-type">Cheese</span>
+                <span class="li-span-pizza-size">Large 16"</span>
+                <div class="qty-div">Qty:<span class="li-span-pizza-qty">1</span></div>
+                <div class="cost-div">$<span class="li-span-pizza-cost">13.99</span></div>
+            </li> -->
+        </ul>
+        <div class="total-cost">Total Cost: <span class="dollar-sign-span">$</span><span class="total-cost-span"></span></div>
+        <div class="customer-name"><span class="ordered-by-span">Ordered by:</span><span class="customer-name-span"></span></div>
+        <div class="cc-last-four-digits"><span class="cc-last-four">Last 4 digits of Card Charged:</span><span class="last-four-digits-span"></span></div>
+        <div id="delivery-header" class="delivery-address-header hide">Deliver to:</div>
+        <div id="delivery-content" class="delivery-address hide"></div>
+        <div id="carryout-header" class="carryout-address-header hide">Carryout Location:</div>
+        <div id="carryout-content" class="carryout-address hide"></div>
+    </div>
+
+    <div class="new-order-btn">
+            <a id="new-order-btn" href="index.html" class="btn btn-primary">New Order</a>
+    </div>
+
+    <script>
+        document.querySelector("#new-order-btn").addEventListener("click", (event) => {
+            sessionStorage.clear();
+        })
+
+        //pizza checkout cart items
+        if(sessionStorage.getItem("small-cheese-pizza-qty-key") === "1"){ //small cheese pizza li
+        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("small-cheese-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("small-cheese-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="small-cheese-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("small-cheese-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="small-cheese-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("small-cheese-pizza-orig-price-key")}</span></div>
+                                                        </li>`;
+        }
+        else if(sessionStorage.getItem("small-cheese-pizza-new-price-key")){
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("small-cheese-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("small-cheese-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="small-cheese-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("small-cheese-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="small-cheese-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("small-cheese-pizza-new-price-key")}</span></div>
+                                                        </li>`;
+        }
+
+        if(sessionStorage.getItem("medium-cheese-pizza-qty-key") === "1"){ //medium cheese pizza li
+        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("medium-cheese-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("medium-cheese-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="medium-cheese-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("medium-cheese-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="medium-cheese-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("medium-cheese-pizza-orig-price-key")}</span></div>
+                                                        </li>`;
+        }
+        else if(sessionStorage.getItem("medium-cheese-pizza-new-price-key")){
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("medium-cheese-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("medium-cheese-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="medium-cheese-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("medium-cheese-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="medium-cheese-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("medium-cheese-pizza-new-price-key")}</span></div>
+                                                        </li>`;
+        }
+
+        if(sessionStorage.getItem("large-cheese-pizza-qty-key") === "1"){ //large cheese pizza li
+        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("large-cheese-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("large-cheese-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="large-cheese-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("large-cheese-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="large-cheese-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("large-cheese-pizza-orig-price-key")}</span></div>
+                                                        </li>`; 
+        }
+        else if(sessionStorage.getItem("large-cheese-pizza-new-price-key")){
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("large-cheese-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("large-cheese-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="large-cheese-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("large-cheese-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="large-cheese-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("large-cheese-pizza-new-price-key")}</span></div>
+                                                        </li>`; 
+        }
+
+        if(sessionStorage.getItem("small-pepperoni-pizza-qty-key") === "1"){ //small pepperoni pizza li
+        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("small-pepperoni-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("small-pepperoni-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="small-pepperoni-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("small-pepperoni-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="small-pepperoni-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("small-pepperoni-pizza-orig-price-key")}</span></div>
+                                                        </li>`;
+        }
+        else if(sessionStorage.getItem("small-pepperoni-pizza-new-price-key")){ 
+        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("small-pepperoni-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("small-pepperoni-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="small-pepperoni-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("small-pepperoni-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="small-pepperoni-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("small-pepperoni-pizza-new-price-key")}</span></div>
+                                                        </li>`;
+        }
+
+        if(sessionStorage.getItem("medium-pepperoni-pizza-qty-key") === "1"){ //medium pepperoni pizza li
+        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("medium-pepperoni-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("medium-pepperoni-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="medium-pepperoni-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("medium-pepperoni-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="medium-pepperoni-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("medium-pepperoni-pizza-orig-price-key")}</span></div>
+                                                        </li>`;
+        }
+        else if(sessionStorage.getItem("medium-pepperoni-pizza-new-price-key")){ 
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("medium-pepperoni-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("medium-pepperoni-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="medium-pepperoni-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("medium-pepperoni-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="medium-pepperoni-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("medium-pepperoni-pizza-new-price-key")}</span></div>
+                                                        </li>`;
+        }
+
+        if(sessionStorage.getItem("large-pepperoni-pizza-qty-key") === "1"){ //large pepperoni pizza li
+        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("large-pepperoni-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("large-pepperoni-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="large-pepperoni-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("large-pepperoni-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="large-pepperoni-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("large-pepperoni-pizza-orig-price-key")}</span></div>
+                                                        </li>`; 
+        }
+        else if(sessionStorage.getItem("large-pepperoni-pizza-new-price-key")){
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("large-pepperoni-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("large-pepperoni-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="large-pepperoni-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("large-pepperoni-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="large-pepperoni-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("large-pepperoni-pizza-new-price-key")}</span></div>
+                                                        </li>`; 
+        }
+        
+
+        if(sessionStorage.getItem("small-hawaiian-pizza-qty-key") === "1"){ //small hawaiian pizza li
+        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("small-hawaiian-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("small-hawaiian-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="small-hawaiian-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("small-hawaiian-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="small-hawaiian-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("small-hawaiian-pizza-orig-price-key")}</span></div>
+                                                        </li>`;
+        }
+        else if(sessionStorage.getItem("small-hawaiian-pizza-new-price-key")){ 
+        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("small-hawaiian-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("small-hawaiian-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="small-hawaiian-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("small-hawaiian-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="small-hawaiian-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("small-hawaiian-pizza-new-price-key")}</span></div>
+                                                        </li>`;
+        }
+
+        if(sessionStorage.getItem("medium-hawaiian-pizza-qty-key") === "1"){ //medium hawaiian pizza li
+        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("medium-hawaiian-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("medium-hawaiian-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="medium-hawaiian-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("medium-hawaiian-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="medium-hawaiian-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("medium-hawaiian-pizza-orig-price-key")}</span></div>
+                                                        </li>`;
+        }
+        else if(sessionStorage.getItem("medium-hawaiian-pizza-new-price-key")){ 
+        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("medium-hawaiian-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("medium-hawaiian-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="medium-hawaiian-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("medium-hawaiian-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="medium-hawaiian-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("medium-hawaiian-pizza-new-price-key")}</span></div>
+                                                        </li>`;
+        }
+
+        if(sessionStorage.getItem("large-hawaiian-pizza-qty-key") === "1"){ //large hawaiian pizza li
+        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("large-hawaiian-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("large-hawaiian-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="large-hawaiian-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("large-hawaiian-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="large-hawaiian-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("large-hawaiian-pizza-orig-price-key")}</span></div>
+                                                        </li>`; 
+        }
+        else if(sessionStorage.getItem("large-hawaiian-pizza-new-price-key")){ 
+        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("large-hawaiian-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("large-hawaiian-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="large-hawaiian-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("large-hawaiian-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="large-hawaiian-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("large-hawaiian-pizza-new-price-key")}</span></div>
+                                                        </li>`; 
+        }
+
+        if(sessionStorage.getItem("small-buffalo-pizza-qty-key") === "1"){ //small buffalo pizza li
+        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("small-buffalo-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("small-buffalo-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="small-buffalo-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("small-buffalo-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="small-buffalo-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("small-buffalo-pizza-orig-price-key")}</span></div>
+                                                        </li>`;
+        }
+        else if(sessionStorage.getItem("small-buffalo-pizza-new-price-key")){ 
+        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("small-buffalo-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("small-buffalo-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="small-buffalo-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("small-buffalo-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="small-buffalo-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("small-buffalo-pizza-new-price-key")}</span></div>
+                                                        </li>`;
+        }
+
+        if(sessionStorage.getItem("medium-buffalo-pizza-qty-key") === "1"){ //medium buffalo pizza li
+        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("medium-buffalo-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("medium-buffalo-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="medium-buffalo-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("medium-buffalo-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="medium-buffalo-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("medium-buffalo-pizza-orig-price-key")}</span></div>
+                                                        </li>`;
+        }
+        else if(sessionStorage.getItem("medium-buffalo-pizza-new-price-key")){ 
+        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("medium-buffalo-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("medium-buffalo-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="medium-buffalo-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("medium-buffalo-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="medium-buffalo-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("medium-buffalo-pizza-new-price-key")}</span></div>
+                                                        </li>`;
+        }
+
+        if(sessionStorage.getItem("large-buffalo-pizza-qty-key") === "1"){ //large buffalo pizza li
+        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("large-buffalo-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("large-buffalo-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="large-buffalo-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("large-buffalo-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="large-buffalo-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("large-buffalo-pizza-orig-price-key")}</span></div>
+                                                        </li>`; 
+        }
+        else if(sessionStorage.getItem("large-buffalo-pizza-new-price-key")){ 
+        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("large-buffalo-pizza-type-key")}</span>
+                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("large-buffalo-pizza-size-key")}</span>
+                                                            <div class="qty-div">Qty:<span id="large-buffalo-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("large-buffalo-pizza-qty-key")}</span></div>
+                                                            <div class="cost-div">$<span id="large-buffalo-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("large-buffalo-pizza-new-price-key")}</span></div>
+                                                        </li>`; 
+        }
+
+        //cost
+        let totalCost = 0;
+        if(sessionStorage.getItem("small-cheese-pizza-qty-key") === "1"){ //small cheese pizza li
+            let tempQty = Number(sessionStorage.getItem("small-cheese-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("small-cheese-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+        else if(sessionStorage.getItem("small-cheese-pizza-new-price-key")){
+            let tempQty = Number(sessionStorage.getItem("small-cheese-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("small-cheese-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+
+        if(sessionStorage.getItem("medium-cheese-pizza-qty-key") === "1"){ //medium cheese pizza li
+            let tempQty = Number(sessionStorage.getItem("medium-cheese-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("medium-cheese-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+        else if(sessionStorage.getItem("medium-cheese-pizza-new-price-key")){
+            let tempQty = Number(sessionStorage.getItem("medium-cheese-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("medium-cheese-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+
+        if(sessionStorage.getItem("large-cheese-pizza-qty-key") === "1"){ //large cheese pizza li
+            let tempQty = Number(sessionStorage.getItem("large-cheese-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("large-cheese-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+        else if(sessionStorage.getItem("large-cheese-pizza-new-price-key")){
+            let tempQty = Number(sessionStorage.getItem("large-cheese-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("large-cheese-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+
+        if(sessionStorage.getItem("small-pepperoni-pizza-qty-key") === "1"){ //small pepperoni pizza li
+            let tempQty = Number(sessionStorage.getItem("small-pepperoni-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("small-pepperoni-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+        else if(sessionStorage.getItem("small-pepperoni-pizza-new-price-key")){ 
+            let tempQty = Number(sessionStorage.getItem("small-pepperoni-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("small-pepperoni-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+
+        if(sessionStorage.getItem("medium-pepperoni-pizza-qty-key") === "1"){ //medium pepperoni pizza li
+            let tempQty = Number(sessionStorage.getItem("medium-pepperoni-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("medium-pepperoni-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+        else if(sessionStorage.getItem("medium-pepperoni-pizza-new-price-key")){ 
+            let tempQty = Number(sessionStorage.getItem("medium-pepperoni-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("medium-pepperoni-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+
+        if(sessionStorage.getItem("large-pepperoni-pizza-qty-key") === "1"){ //large pepperoni pizza li
+            let tempQty = Number(sessionStorage.getItem("large-pepperoni-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("large-pepperoni-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+        else if(sessionStorage.getItem("large-pepperoni-pizza-new-price-key")){
+            let tempQty = Number(sessionStorage.getItem("large-pepperoni-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("large-pepperoni-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+        
+
+        if(sessionStorage.getItem("small-hawaiian-pizza-qty-key") === "1"){ //small hawaiian pizza li
+            let tempQty = Number(sessionStorage.getItem("small-hawaiian-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("small-hawaiian-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+        else if(sessionStorage.getItem("small-hawaiian-pizza-new-price-key")){ 
+            let tempQty = Number(sessionStorage.getItem("small-hawaiian-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("small-hawaiian-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+
+        if(sessionStorage.getItem("medium-hawaiian-pizza-qty-key") === "1"){ //medium hawaiian pizza li
+            let tempQty = Number(sessionStorage.getItem("medium-hawaiian-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("medium-hawaiian-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+        else if(sessionStorage.getItem("medium-hawaiian-pizza-new-price-key")){ 
+            let tempQty = Number(sessionStorage.getItem("medium-hawaiian-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("medium-hawaiian-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+
+        if(sessionStorage.getItem("large-hawaiian-pizza-qty-key") === "1"){ //large hawaiian pizza li
+            let tempQty = Number(sessionStorage.getItem("large-hawaiian-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("large-hawaiian-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+        else if(sessionStorage.getItem("large-hawaiian-pizza-new-price-key")){ 
+            let tempQty = Number(sessionStorage.getItem("large-hawaiian-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("large-hawaiian-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+
+        if(sessionStorage.getItem("small-buffalo-pizza-qty-key") === "1"){ //small buffalo pizza li
+            let tempQty = Number(sessionStorage.getItem("small-buffalo-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("small-buffalo-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+        else if(sessionStorage.getItem("small-buffalo-pizza-new-price-key")){ 
+            let tempQty = Number(sessionStorage.getItem("small-buffalo-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("small-buffalo-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+
+        if(sessionStorage.getItem("medium-buffalo-pizza-qty-key") === "1"){ //medium buffalo pizza li
+            let tempQty = Number(sessionStorage.getItem("medium-buffalo-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("medium-buffalo-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+        else if(sessionStorage.getItem("medium-buffalo-pizza-new-price-key")){ 
+            let tempQty = Number(sessionStorage.getItem("medium-buffalo-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("medium-buffalo-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+
+        if(sessionStorage.getItem("large-buffalo-pizza-qty-key") === "1"){ //large buffalo pizza li
+            let tempQty = Number(sessionStorage.getItem("large-buffalo-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("large-buffalo-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+        else if(sessionStorage.getItem("large-buffalo-pizza-new-price-key")){ 
+            let tempQty = Number(sessionStorage.getItem("large-buffalo-pizza-qty-key"));
+            let tempPrice = Number(sessionStorage.getItem("large-buffalo-pizza-orig-price-key"));
+            tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+            totalCost += tempPrice;
+        }
+
+        //displaying total cost
+        let StringTotalCost = totalCost.toString();
+        document.querySelector('.total-cost-span').innerHTML = StringTotalCost;
+
+        //displaying customer name
+        document.querySelector('.customer-name-span').innerHTML = sessionStorage.getItem('cc-name-key');
+
+        //displaying last four digits
+        let ccNumOrigVal = sessionStorage.getItem('cc-number-key');
+        let lastFour = ccNumOrigVal.charAt(ccNumOrigVal.length-1) + ccNumOrigVal.charAt(ccNumOrigVal.length-2) + ccNumOrigVal.charAt(ccNumOrigVal.length-3) + ccNumOrigVal.charAt(ccNumOrigVal.length-4);
+        document.querySelector('.last-four-digits-span').innerHTML = lastFour;
+
+        //displaying deliver to or carryout
+        if(sessionStorage.getItem('carryout-location')){
+            document.querySelector('#carryout-header').className = 'carryout-address-header show';
+            document.querySelector('#carryout-content').className = 'carryout-address show';
+            document.querySelector('#carryout-content').innerHTML = `${sessionStorage.getItem('carryout-location')}`;
+        }
+        else if(sessionStorage.getItem('street-address-save')){
+            document.querySelector('#delivery-header').className = 'delivery-address-header show';
+            document.querySelector('#delivery-content').className = 'delivery-address show';
+            document.querySelector('#delivery-content').innerHTML = `${sessionStorage.getItem('street-address-save')} Apt/Suite ${sessionStorage.getItem('suite-apt-num-save')}`;
+        }
+
+    </script>
+</body>
+</html>

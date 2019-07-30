@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Delivery</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+        }
+
+        .navbar, .nav-link {
+            color: white;
+        }
+
+        .form {
+            margin: 5rem;
+            margin-left: 10rem;
+        }
+
+        .form-title {
+            margin: 1rem;
+            margin-left: 10rem;
+            font-size: 2rem;
+        }
+
+        .continue-btn {
+            margin-left: 10rem;
+        }
+        
+        #address-type, #states {
+            width: 10rem;
+            margin-left: 1rem;
+        }
+
+        #street-address, #city {
+            width: 20rem;
+            margin-left: 1rem;
+        }
+
+        #zipcode, #suite-apt-num {
+            width: 8rem;
+        }
+
+        #clear-all-btn{
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <span>Delivery</span>
+        <a href="index.html" class="nav-link">Home</a>
+    </nav>
+    <div class="form-title">Enter Your Delivery Address Below</div>
+    <div class="form">
+        <div class="form-section">
+            <label>Address Type:</label>
+            <select id="address-type" class="custom-select custom-select-sm">
+                <option value="house">House</option>
+                <option value="apartment">Apartment</option>
+                <option value="business">Business</option>
+            </select>
+        </div>
+        <div class="form-section">
+            <label>Street Address:</label>
+            <input id="street-address" type="text">
+        </div>
+        <div class="form-section">
+            <label>Suite/Apt #</label>
+            <input id="suite-apt-num" type="text">
+        </div>
+        <div class="form-section">
+            <label>City:</label>
+            <input id="city" type="text">
+        </div>
+        <div class="form-section">
+            <label>State:</label>
+            <select id="states" class="states custom-select custom-select-sm"></select>
+        </div>
+        <div class="form-section">
+            <label>Zip Code:</label>
+            <input id="zipcode" type="text">
+        </div>
+    </div>
+
+    <div class="continue-btn">
+        <button id="clear-all-btn" type="button" class="btn btn-danger clear-btn">Clear All</button>
+        <a href="pizzaorderingpage.html" class="btn btn-primary">Continue</a>
+    </div>
+
+    <script>
+        function storageAvailable(type) {
+            var storage;
+            try {
+                storage = window[type];
+                var x = '__storage_test__';
+                storage.setItem(x, x);
+                storage.removeItem(x);
+                return true;
+            }
+            catch(e) {
+                return e instanceof DOMException && (
+                    // everything except Firefox
+                    e.code === 22 ||
+                    // Firefox
+                    e.code === 1014 ||
+                    // test name field too, because code might not be present
+                    // everything except Firefox
+                    e.name === 'QuotaExceededError' ||
+                    // Firefox
+                    e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+                    // acknowledge QuotaExceededError only if there's something already stored
+                    (storage && storage.length !== 0);
+            }
+        }
+
+        let field1 = document.getElementById("address-type");
+        let field2 = document.getElementById("street-address");
+        let field3 = document.getElementById("suite-apt-num");
+        let field4 = document.getElementById("city");
+        let field5 = document.getElementById("states");
+        let field6 = document.getElementById("zipcode")
+
+
+        if (storageAvailable('sessionStorage')) {
+            //clear all button, clears all of the text fields
+            document.querySelector("#clear-all-btn").addEventListener("click", (event) => {
+                document.querySelector("#street-address").value = "";
+                document.querySelector("#suite-apt-num").value = "";
+                document.querySelector("#city").value = "";
+                document.querySelector("#zipcode").value = "";
+
+
+                //deleting the text field values from session storage
+                if(sessionStorage.getItem('street-address-save')){
+                    sessionStorage.removeItem('street-address-save');
+                };
+                if(sessionStorage.getItem('suite-apt-num-save')){
+                    sessionStorage.removeItem('suite-apt-num-save');
+                };
+                if(sessionStorage.getItem('city-save')){
+                    sessionStorage.removeItem('city-save');
+                };
+                if(sessionStorage.getItem('zipcode-save')){
+                    sessionStorage.removeItem('zipcode-save');
+                };
+            });
+            
+            // See if we have an autosave value
+            // (this will only happen if the page is accidentally refreshed)
+            if (sessionStorage.getItem("address-type-save")) {
+                // Restore the contents of the text field
+                field1.value = sessionStorage.getItem("address-type-save");
+            }
+
+            if (sessionStorage.getItem("street-address-save")) {
+                // Restore the contents of the text field
+                field2.value = sessionStorage.getItem("street-address-save");
+            }
+
+            if (sessionStorage.getItem("suite-apt-num-save")) {
+                // Restore the contents of the text field
+                field3.value = sessionStorage.getItem("suite-apt-num-save");
+            }
+
+            if (sessionStorage.getItem("city-save")) {
+                // Restore the contents of the text field
+                field4.value = sessionStorage.getItem("city-save");
+            }
+
+            if (sessionStorage.getItem("state-save")) {
+                // Restore the contents of the text field
+                field5.value = sessionStorage.getItem("state-save");
+            }
+
+            if (sessionStorage.getItem("zipcode-save")) {
+                // Restore the contents of the text field
+                field6.value = sessionStorage.getItem("zipcode-save");
+            }
+            
+            // Listen for changes in the text field
+            field1.addEventListener("change", function() {
+                // And save the results into the session storage object
+                sessionStorage.setItem("address-type-save", field1.value);
+            });
+
+            field2.addEventListener("change", function() {
+                // And save the results into the session storage object
+                sessionStorage.setItem("street-address-save", field2.value);
+            });
+
+            field3.addEventListener("change", function() {
+                // And save the results into the session storage object
+                sessionStorage.setItem("suite-apt-num-save", field3.value);
+            });
+
+            field4.addEventListener("change", function() {
+                // And save the results into the session storage object
+                sessionStorage.setItem("city-save", field4.value);
+            });
+
+            field5.addEventListener("change", function() {
+                // And save the results into the session storage object
+                sessionStorage.setItem("state-save", field5.value);
+            });
+
+            field6.addEventListener("change", function() {
+                // And save the results into the session storage object
+                sessionStorage.setItem("zipcode-save", field6.value);
+            });
+        }
+        else {
+        // Too bad, no sessionStorage for us
+        console.log("no bueno :(")
+        }
+
+        let states = [  "Alabama",
+                        "Alaska",
+                        "American Samoa",
+                        "Arizona",
+                        "Arkansas",
+                        "California",
+                        "Colorado",
+                        "Connecticut",
+                        "Delaware",
+                        "District Of Columbia",
+                        "Federated States Of Micronesia",
+                        "Florida",
+                        "Georgia",
+                        "Guam",
+                        "Hawaii",
+                        "Idaho",
+                        "Illinois",
+                        "Indiana",
+                        "Iowa",
+                        "Kansas",
+                        "Kentucky",
+                        "Louisiana",
+                        "Maine",
+                        "Marshall Islands",
+                        "Maryland",
+                        "Massachusetts",
+                        "Michigan",
+                        "Minnesota",
+                        "Mississippi",
+                        "Missouri",
+                        "Montana",
+                        "Nebraska",
+                        "Nevada",
+                        "New Hampshire",
+                        "New Jersey",
+                        "New Mexico",
+                        "New York",
+                        "North Carolina",
+                        "North Dakota",
+                        "Northern Mariana Islands",
+                        "Ohio",
+                        "Oklahoma",
+                        "Oregon",
+                        "Palau",
+                        "Pennsylvania",
+                        "Puerto Rico",
+                        "Rhode Island",
+                        "South Carolina",
+                        "South Dakota",
+                        "Tennessee",
+                        "Texas",
+                        "Utah",
+                        "Vermont",
+                        "Virgin Islands",
+                        "Virginia",
+                        "Washington",
+                        "West Virginia",
+                        "Wisconsin",
+                        "Wyoming"];
+        
+        for(let i = 0; i < states.length; i++){
+            document.querySelector("#states").innerHTML += `<option value="${states[i]}">${states[i]}</option>`;
+        }
+    </script>
+</body>
+</html>

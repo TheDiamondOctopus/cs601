@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pizza Order</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous">
+    </script>
+
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+        }
+
+        img {
+            width: 7rem;
+            height: 6rem;
+            border-radius: 4%;
+        }
+
+        .pizza-item {
+            margin: 4rem;
+        }
+
+        .custom-select {
+            width: 8rem;
+        }
+
+        .navbar, .nav-link {
+            color: white;
+        }
+
+        .cost-div, .qty-div {
+            display: inline;
+            margin: 1rem;
+        }
+
+        .pizza-type-span {
+            margin: 1rem;
+        }
+
+        .checkout-cart {
+            position: fixed;
+            top: 14%;
+            right: 0;
+            width: 24rem;
+            height: 10vh;
+            color: #343a40;
+        }
+
+        .cart-span {
+            border: 2px solid #343a40;
+            padding-top: 0.1rem;
+            padding-bottom: 0.2rem;
+            padding-left: 9rem;
+            padding-right: 9rem; 
+            font-size: 1.5rem;
+        }
+
+        .cart-ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 1rem;
+        }
+
+        .cart-item {
+            font-size: 1rem;
+        }
+
+        .li-span-pizza-type, .li-span-pizza-size, .li-span-pizza-qty {
+            margin: 0.5rem;
+        }   
+
+        .li-span-dollar-sign {
+            margin-left: 1rem;
+        }
+
+        .placeorder-btn {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            margin: 1rem;
+        }
+
+        .clear-btn {
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!--a way for a customer to order a speciliaty or build your own pizza-->
+
+    <nav class="navbar navbar-dark bg-dark">
+        <span>Place Your Order Below</span>
+        <a href="index.html" class="nav-link">Home</a>
+    </nav>
+
+    <!--"Floating" Checkout Cart-->
+    <div class="checkout-cart">
+        <span class="cart-span">Cart</span>
+        <ul class="cart-ul">
+            <!--below li is a must needed template, DO NOT ERASE-->
+            <!-- <li class="cart-item">
+                <span class="li-span-pizza-type">Cheese</span>
+                <span class="li-span-pizza-size">Large 16"</span>
+                <div class="qty-div">Qty:<span class="li-span-pizza-qty">1</span></div>
+                <div class="cost-div">$<span class="li-span-pizza-cost">13.99</span></div>
+            </li> -->
+        </ul>
+    </div>
+
+    <div class="pizza-item">
+        <!--img credit goes to independent.co.uk-->
+        <img src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2017/09/18/16/vegan-pizza-hut.jpg?w968h681">
+        <span class="pizza-type-span">Cheese Pizza</span>
+        <select class="custom-select custom-select-sm" id="s1">
+            <option value="13.99">Large 16"</option>
+            <option value="11.99">Medium 14"</option>
+            <option value="9.99">Small 12"</option>
+        </select>
+        <div class="cost-div">$<span id="cost-span1">13.99</span></div>
+        <button id="add-cheese" type="button" class="btn btn-primary">Add to Cart</button>
+    </div>
+    <div class="pizza-item">
+        <!--img credit goes to recipe4living.com-->
+        <img src="https://www.recipe4living.com/assets/itemimages/400/400/3/default_9b4106b8f65359684b3836096b4524c8_pizza%20dreamstimesmall_94940296.jpg">
+        <span class="pizza-type-span">Pepperoni Pizza</span>
+        <select class="custom-select custom-select-sm" id="s2">
+            <option value="13.99">Large 16"</option>
+            <option value="11.99">Medium 14"</option>
+            <option value="9.99">Small 12"</option>
+        </select>
+        <div class="cost-div">$<span id="cost-span2">13.99</span></div>
+        <button id="add-pepperoni" type="button" class="btn btn-primary">Add to Cart</button>
+    </div>
+    <div class="pizza-item">
+        <!--img credit goes to cloudinary.com-->
+        <img src="https://res.cloudinary.com/droz/image/upload/v1558317957/prod-store/gallery/slides/Hawaiian-pizza-pie-pineapple-720.jpg">
+        <span class="pizza-type-span">Hawaiian Pizza</span>
+        <select class="custom-select custom-select-sm" id="s3">
+            <option value="13.99">Large 16"</option>
+            <option value="11.99">Medium 14"</option>
+            <option value="9.99">Small 12"</option>
+        </select>
+        <div class="cost-div">$<span id="cost-span3">13.99</span></div>
+        <button id="add-hawaiian" type="button" class="btn btn-primary">Add to Cart</button>
+    </div>
+    <div class="pizza-item">
+        <img src="https://slice.seriouseats.com/images/2012/03/20120329-chain-reaction-papa-johns-buffalo-chicken-zoom.jpg">
+        <span class="pizza-type-span">Buffalo Chicken Pizza</span>
+        <select class="custom-select custom-select-sm" id="s4">
+            <option value="13.99">Large 16"</option>
+            <option value="11.99">Medium 14"</option>
+            <option value="9.99">Small 12"</option>
+        </select>
+        <div class="cost-div">$<span id="cost-span4">13.99</span></div>
+        <button id="add-buffalo" type="button" class="btn btn-primary">Add to Cart</button>
+    </div>
+
+    <div class="placeorder-btn">
+        <button id="clear-all-btn" type="button" class="btn btn-danger clear-btn">Clear All</button>
+        <a href="checkoutpage.html" class="btn btn-primary">Proceed to Checkout</a>
+        <!-- <button id="proceed-button" type="button" class="btn btn-primary">Proceed to Checkout</button> -->
+    </div>
+
+    <script>
+        document.querySelector("#s1").addEventListener("change", (event) => {
+            priceChange("#s1", "#cost-span1");
+        })
+
+        document.querySelector("#s2").addEventListener("change", (event) => {
+            priceChange("#s2", "#cost-span2");
+        })
+
+        document.querySelector("#s3").addEventListener("change", (event) => {
+            priceChange("#s3", "#cost-span3");
+        })
+
+        document.querySelector("#s4").addEventListener("change", (event) => {
+            priceChange("#s4", "#cost-span4");
+        })
+
+        const priceChange = (id1, id2) => { 
+            if(document.querySelector(id1).value === "13.99"){
+                document.querySelector(id2).innerHTML = document.querySelector(id1).value;
+            }
+            else if(document.querySelector(id1).value === "11.99"){
+                document.querySelector(id2).innerHTML = document.querySelector(id1).value;
+            }
+            else if(document.querySelector(id1).value === "9.99"){
+                document.querySelector(id2).innerHTML = document.querySelector(id1).value;
+            }
+        }
+
+        //Using sessionStorage to store cart items
+        function storageAvailable(type) {
+            var storage;
+            try {
+                storage = window[type];
+                var x = '__storage_test__';
+                storage.setItem(x, x);
+                storage.removeItem(x);
+                return true;
+            }
+            catch(e) {
+                return e instanceof DOMException && (
+                    // everything except Firefox
+                    e.code === 22 ||
+                    // Firefox
+                    e.code === 1014 ||
+                    // test name field too, because code might not be present
+                    // everything except Firefox
+                    e.name === 'QuotaExceededError' ||
+                    // Firefox
+                    e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+                    // acknowledge QuotaExceededError only if there's something already stored
+                    (storage && storage.length !== 0);
+            }
+        }
+
+        if (storageAvailable('sessionStorage')) {
+            //clear all button - removes html for the checkout car and the checkout cart sessionStorage values
+            document.querySelector("#clear-all-btn").addEventListener("click", (event) => {
+                document.querySelector(".cart-ul").innerHTML = "";
+
+                //deleting cheese pizza from session storage
+                if(sessionStorage.getItem('small-cheese-pizza-type-key')){
+                    sessionStorage.removeItem('small-cheese-pizza-type-key');
+                    sessionStorage.removeItem('small-cheese-pizza-size-key');
+                    sessionStorage.removeItem('small-cheese-pizza-qty-key');
+                    sessionStorage.removeItem('small-cheese-pizza-orig-price-key');
+                    sessionStorage.removeItem('small-cheese-pizza-new-price-key');
+                }
+                if(sessionStorage.getItem('medium-cheese-pizza-type-key')){
+                    sessionStorage.removeItem('medium-cheese-pizza-type-key');
+                    sessionStorage.removeItem('medium-cheese-pizza-size-key');
+                    sessionStorage.removeItem('medium-cheese-pizza-qty-key');
+                    sessionStorage.removeItem('medium-cheese-pizza-orig-price-key');
+                    sessionStorage.removeItem('medium-cheese-pizza-new-price-key');
+                }
+                if(sessionStorage.getItem('large-cheese-pizza-type-key')){
+                    sessionStorage.removeItem('large-cheese-pizza-type-key');
+                    sessionStorage.removeItem('large-cheese-pizza-size-key');
+                    sessionStorage.removeItem('large-cheese-pizza-qty-key');
+                    sessionStorage.removeItem('large-cheese-pizza-orig-price-key');
+                    sessionStorage.removeItem('large-cheese-pizza-new-price-key');
+                }
+
+                //deleting pepperoni pizza from session storage
+                if(sessionStorage.getItem('small-pepperoni-pizza-type-key')){
+                    sessionStorage.removeItem('small-pepperoni-pizza-type-key');
+                    sessionStorage.removeItem('small-pepperoni-pizza-size-key');
+                    sessionStorage.removeItem('small-pepperoni-pizza-qty-key');
+                    sessionStorage.removeItem('small-pepperoni-pizza-orig-price-key');
+                    sessionStorage.removeItem('small-pepperoni-pizza-new-price-key');
+                }
+                if(sessionStorage.getItem('medium-pepperoni-pizza-type-key')){
+                    sessionStorage.removeItem('medium-pepperoni-pizza-type-key');
+                    sessionStorage.removeItem('medium-pepperoni-pizza-size-key');
+                    sessionStorage.removeItem('medium-pepperoni-pizza-qty-key');
+                    sessionStorage.removeItem('medium-pepperoni-pizza-orig-price-key');
+                    sessionStorage.removeItem('medium-pepperoni-pizza-new-price-key');
+                }
+                if(sessionStorage.getItem('large-pepperoni-pizza-type-key')){
+                    sessionStorage.removeItem('large-pepperoni-pizza-type-key');
+                    sessionStorage.removeItem('large-pepperoni-pizza-size-key');
+                    sessionStorage.removeItem('large-pepperoni-pizza-qty-key');
+                    sessionStorage.removeItem('large-pepperoni-pizza-orig-price-key');
+                    sessionStorage.removeItem('large-pepperoni-pizza-new-price-key');
+                }
+
+                //deleting hawaiian pizza from session storage
+                if(sessionStorage.getItem('small-hawaiian-pizza-type-key')){
+                    sessionStorage.removeItem('small-hawaiian-pizza-type-key');
+                    sessionStorage.removeItem('small-hawaiian-pizza-size-key');
+                    sessionStorage.removeItem('small-hawaiian-pizza-qty-key');
+                    sessionStorage.removeItem('small-hawaiian-pizza-orig-price-key');
+                    sessionStorage.removeItem('small-hawaiian-pizza-new-price-key');
+                }
+                if(sessionStorage.getItem('medium-hawaiian-pizza-type-key')){
+                    sessionStorage.removeItem('medium-hawaiian-pizza-type-key');
+                    sessionStorage.removeItem('medium-hawaiian-pizza-size-key');
+                    sessionStorage.removeItem('medium-hawaiian-pizza-qty-key');
+                    sessionStorage.removeItem('medium-hawaiian-pizza-orig-price-key');
+                    sessionStorage.removeItem('medium-hawaiian-pizza-new-price-key');
+                }
+                if(sessionStorage.getItem('large-hawaiian-pizza-type-key')){
+                    sessionStorage.removeItem('large-hawaiian-pizza-type-key');
+                    sessionStorage.removeItem('large-hawaiian-pizza-size-key');
+                    sessionStorage.removeItem('large-hawaiian-pizza-qty-key');
+                    sessionStorage.removeItem('large-hawaiian-pizza-orig-price-key');
+                    sessionStorage.removeItem('large-hawaiian-pizza-new-price-key');
+                }
+
+                //deleting buffalo pizza from session storage
+                if(sessionStorage.getItem('small-buffalo-pizza-type-key')){
+                    sessionStorage.removeItem('small-buffalo-pizza-type-key');
+                    sessionStorage.removeItem('small-buffalo-pizza-size-key');
+                    sessionStorage.removeItem('small-buffalo-pizza-qty-key');
+                    sessionStorage.removeItem('small-buffalo-pizza-orig-price-key');
+                    sessionStorage.removeItem('small-buffalo-pizza-new-price-key');
+                }
+                if(sessionStorage.getItem('medium-buffalo-pizza-type-key')){
+                    sessionStorage.removeItem('medium-buffalo-pizza-type-key');
+                    sessionStorage.removeItem('medium-buffalo-pizza-size-key');
+                    sessionStorage.removeItem('medium-buffalo-pizza-qty-key');
+                    sessionStorage.removeItem('medium-buffalo-pizza-orig-price-key');
+                    sessionStorage.removeItem('medium-buffalo-pizza-new-price-key');
+                }
+                if(sessionStorage.getItem('large-buffalo-pizza-type-key')){
+                    sessionStorage.removeItem('large-buffalo-pizza-type-key');
+                    sessionStorage.removeItem('large-buffalo-pizza-size-key');
+                    sessionStorage.removeItem('large-buffalo-pizza-qty-key');
+                    sessionStorage.removeItem('large-buffalo-pizza-orig-price-key');
+                    sessionStorage.removeItem('large-buffalo-pizza-new-price-key');
+                }
+
+            });
+
+            //if page refreshes we want already stored values to show on page
+            if(sessionStorage.getItem("small-cheese-pizza-qty-key") === "1"){ //small cheese pizza li
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("small-cheese-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("small-cheese-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="small-cheese-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("small-cheese-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="small-cheese-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("small-cheese-pizza-orig-price-key")}</span></div>
+                                                            </li>`;
+            }
+            else if(sessionStorage.getItem("small-cheese-pizza-new-price-key")){
+                document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("small-cheese-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("small-cheese-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="small-cheese-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("small-cheese-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="small-cheese-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("small-cheese-pizza-new-price-key")}</span></div>
+                                                            </li>`;
+            }
+
+            if(sessionStorage.getItem("medium-cheese-pizza-qty-key") === "1"){ //medium cheese pizza li
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("medium-cheese-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("medium-cheese-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="medium-cheese-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("medium-cheese-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="medium-cheese-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("medium-cheese-pizza-orig-price-key")}</span></div>
+                                                            </li>`;
+            }
+            else if(sessionStorage.getItem("medium-cheese-pizza-new-price-key")){
+                document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("medium-cheese-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("medium-cheese-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="medium-cheese-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("medium-cheese-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="medium-cheese-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("medium-cheese-pizza-new-price-key")}</span></div>
+                                                            </li>`;
+            }
+
+            if(sessionStorage.getItem("large-cheese-pizza-qty-key") === "1"){ //large cheese pizza li
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("large-cheese-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("large-cheese-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="large-cheese-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("large-cheese-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="large-cheese-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("large-cheese-pizza-orig-price-key")}</span></div>
+                                                            </li>`; 
+            }
+            else if(sessionStorage.getItem("large-cheese-pizza-new-price-key")){
+                document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("large-cheese-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("large-cheese-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="large-cheese-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("large-cheese-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="large-cheese-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("large-cheese-pizza-new-price-key")}</span></div>
+                                                            </li>`; 
+            }
+
+            if(sessionStorage.getItem("small-pepperoni-pizza-qty-key") === "1"){ //small pepperoni pizza li
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("small-pepperoni-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("small-pepperoni-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="small-pepperoni-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("small-pepperoni-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="small-pepperoni-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("small-pepperoni-pizza-orig-price-key")}</span></div>
+                                                            </li>`;
+            }
+            else if(sessionStorage.getItem("small-pepperoni-pizza-new-price-key")){ 
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("small-pepperoni-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("small-pepperoni-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="small-pepperoni-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("small-pepperoni-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="small-pepperoni-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("small-pepperoni-pizza-new-price-key")}</span></div>
+                                                            </li>`;
+            }
+
+            if(sessionStorage.getItem("medium-pepperoni-pizza-qty-key") === "1"){ //medium pepperoni pizza li
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("medium-pepperoni-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("medium-pepperoni-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="medium-pepperoni-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("medium-pepperoni-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="medium-pepperoni-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("medium-pepperoni-pizza-orig-price-key")}</span></div>
+                                                            </li>`;
+            }
+            else if(sessionStorage.getItem("medium-pepperoni-pizza-new-price-key")){ 
+                document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("medium-pepperoni-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("medium-pepperoni-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="medium-pepperoni-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("medium-pepperoni-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="medium-pepperoni-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("medium-pepperoni-pizza-new-price-key")}</span></div>
+                                                            </li>`;
+            }
+
+            if(sessionStorage.getItem("large-pepperoni-pizza-qty-key") === "1"){ //large pepperoni pizza li
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("large-pepperoni-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("large-pepperoni-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="large-pepperoni-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("large-pepperoni-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="large-pepperoni-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("large-pepperoni-pizza-orig-price-key")}</span></div>
+                                                            </li>`; 
+            }
+            else if(sessionStorage.getItem("large-pepperoni-pizza-new-price-key")){
+                document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("large-pepperoni-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("large-pepperoni-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="large-pepperoni-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("large-pepperoni-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="large-pepperoni-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("large-pepperoni-pizza-new-price-key")}</span></div>
+                                                            </li>`; 
+            }
+            
+
+            if(sessionStorage.getItem("small-hawaiian-pizza-qty-key") === "1"){ //small hawaiian pizza li
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("small-hawaiian-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("small-hawaiian-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="small-hawaiian-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("small-hawaiian-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="small-hawaiian-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("small-hawaiian-pizza-orig-price-key")}</span></div>
+                                                            </li>`;
+            }
+            else if(sessionStorage.getItem("small-hawaiian-pizza-new-price-key")){ 
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("small-hawaiian-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("small-hawaiian-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="small-hawaiian-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("small-hawaiian-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="small-hawaiian-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("small-hawaiian-pizza-new-price-key")}</span></div>
+                                                            </li>`;
+            }
+
+            if(sessionStorage.getItem("medium-hawaiian-pizza-qty-key") === "1"){ //medium hawaiian pizza li
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("medium-hawaiian-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("medium-hawaiian-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="medium-hawaiian-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("medium-hawaiian-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="medium-hawaiian-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("medium-hawaiian-pizza-orig-price-key")}</span></div>
+                                                            </li>`;
+            }
+            else if(sessionStorage.getItem("medium-hawaiian-pizza-new-price-key")){ 
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("medium-hawaiian-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("medium-hawaiian-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="medium-hawaiian-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("medium-hawaiian-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="medium-hawaiian-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("medium-hawaiian-pizza-new-price-key")}</span></div>
+                                                            </li>`;
+            }
+
+            if(sessionStorage.getItem("large-hawaiian-pizza-qty-key") === "1"){ //large hawaiian pizza li
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("large-hawaiian-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("large-hawaiian-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="large-hawaiian-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("large-hawaiian-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="large-hawaiian-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("large-hawaiian-pizza-orig-price-key")}</span></div>
+                                                            </li>`; 
+            }
+            else if(sessionStorage.getItem("large-hawaiian-pizza-new-price-key")){ 
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("large-hawaiian-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("large-hawaiian-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="large-hawaiian-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("large-hawaiian-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="large-hawaiian-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("large-hawaiian-pizza-new-price-key")}</span></div>
+                                                            </li>`; 
+            }
+
+            if(sessionStorage.getItem("small-buffalo-pizza-qty-key") === "1"){ //small buffalo pizza li
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("small-buffalo-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("small-buffalo-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="small-buffalo-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("small-buffalo-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="small-buffalo-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("small-buffalo-pizza-orig-price-key")}</span></div>
+                                                            </li>`;
+            }
+            else if(sessionStorage.getItem("small-buffalo-pizza-new-price-key")){ 
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("small-buffalo-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("small-buffalo-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="small-buffalo-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("small-buffalo-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="small-buffalo-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("small-buffalo-pizza-new-price-key")}</span></div>
+                                                            </li>`;
+            }
+
+            if(sessionStorage.getItem("medium-buffalo-pizza-qty-key") === "1"){ //medium buffalo pizza li
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("medium-buffalo-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("medium-buffalo-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="medium-buffalo-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("medium-buffalo-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="medium-buffalo-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("medium-buffalo-pizza-orig-price-key")}</span></div>
+                                                            </li>`;
+            }
+            else if(sessionStorage.getItem("medium-buffalo-pizza-new-price-key")){ 
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("medium-buffalo-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("medium-buffalo-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="medium-buffalo-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("medium-buffalo-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="medium-buffalo-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("medium-buffalo-pizza-new-price-key")}</span></div>
+                                                            </li>`;
+            }
+
+            if(sessionStorage.getItem("large-buffalo-pizza-qty-key") === "1"){ //large buffalo pizza li
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("large-buffalo-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("large-buffalo-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="large-buffalo-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("large-buffalo-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="large-buffalo-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("large-buffalo-pizza-orig-price-key")}</span></div>
+                                                            </li>`; 
+            }
+            else if(sessionStorage.getItem("large-buffalo-pizza-new-price-key")){ 
+            document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                <span class="li-span-pizza-type">${sessionStorage.getItem("large-buffalo-pizza-type-key")}</span>
+                                                                <span class="li-span-pizza-size">${sessionStorage.getItem("large-buffalo-pizza-size-key")}</span>
+                                                                <div class="qty-div">Qty:<span id="large-buffalo-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("large-buffalo-pizza-qty-key")}</span></div>
+                                                                <div class="cost-div">$<span id="large-buffalo-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("large-buffalo-pizza-new-price-key")}</span></div>
+                                                            </li>`; 
+            }
+
+
+
+            //creating new sessionStorage values for the checkout cart
+            document.querySelector("#add-cheese").addEventListener("click", (event) => {//Cheese pizza 
+                addCheeseToCart("Cheese", $( "#s1 option:selected" ).text(), document.querySelector("#s1").value);
+            });
+
+            document.querySelector("#add-pepperoni").addEventListener("click", (event) => {//Pepperoni pizza
+                addPepperoniToCart("Pepperoni", $( "#s2 option:selected" ).text(), document.querySelector("#s2").value);
+            });
+
+            document.querySelector("#add-hawaiian").addEventListener("click", (event) => {
+                addHawaiianToCart("Hawaiian", $( "#s3 option:selected" ).text(), document.querySelector("#s3").value);
+            });
+
+            document.querySelector("#add-buffalo").addEventListener("click", (event) => {
+                addBuffaloToCart("Buffalo", $( "#s4 option:selected" ).text(), document.querySelector("#s4").value);
+            });
+
+            //functions for "add to cart" buttons for each type of pizza
+            const addCheeseToCart = (type, size, price) => {
+                if(type === "Cheese"){
+                    //if small cheese pizza already exists in the cart
+                    if(sessionStorage.getItem("small-cheese-pizza-size-key") === size){
+                        let tempQty = Number(sessionStorage.getItem("small-cheese-pizza-qty-key"));
+                        let tempPrice = Number(sessionStorage.getItem("small-cheese-pizza-orig-price-key"));
+                        tempQty += 1;
+                        tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+                        let stringTempQty = tempQty.toString();
+                        let stringTempPrice = tempPrice.toString();
+                        sessionStorage.setItem("small-cheese-pizza-qty-key", stringTempQty);
+                        sessionStorage.setItem("small-cheese-pizza-new-price-key", stringTempPrice);
+                        console.log(stringTempQty);   
+                        console.log(stringTempPrice);
+                        document.querySelector("#small-cheese-pizza-qty").innerHTML = stringTempQty; 
+                        document.querySelector("#small-cheese-pizza-cost").innerHTML = stringTempPrice;                   
+                    }   
+                    //if medium cheese pizza already exists in the cart
+                    else if(sessionStorage.getItem("medium-cheese-pizza-size-key") === size){
+                        let tempQty = Number(sessionStorage.getItem("medium-cheese-pizza-qty-key"));
+                        let tempPrice = Number(sessionStorage.getItem("medium-cheese-pizza-orig-price-key"));
+                        tempQty += 1;
+                        tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+                        let stringTempQty = tempQty.toString();
+                        let stringTempPrice = tempPrice.toString();
+                        sessionStorage.setItem("medium-cheese-pizza-qty-key", stringTempQty);
+                        sessionStorage.setItem("medium-cheese-pizza-new-price-key", stringTempPrice);
+                        console.log(stringTempQty);   
+                        document.querySelector("#medium-cheese-pizza-qty").innerHTML = stringTempQty; 
+                        document.querySelector("#medium-cheese-pizza-cost").innerHTML = stringTempPrice;                    
+                    }   
+                    //if large cheese pizza already exists in the cart
+                    else if(sessionStorage.getItem("large-cheese-pizza-size-key") === size){
+                        let tempQty = Number(sessionStorage.getItem("large-cheese-pizza-qty-key"));
+                        let tempPrice = Number(sessionStorage.getItem("large-cheese-pizza-orig-price-key"));
+                        tempQty += 1;
+                        tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+                        let stringTempQty = tempQty.toString();
+                        let stringTempPrice = tempPrice.toString();
+                        sessionStorage.setItem("large-cheese-pizza-qty-key", stringTempQty);
+                        sessionStorage.setItem("large-cheese-pizza-new-price-key", stringTempPrice);
+                        console.log(stringTempQty);   
+                        document.querySelector("#large-cheese-pizza-qty").innerHTML = stringTempQty; 
+                        document.querySelector("#large-cheese-pizza-cost").innerHTML = stringTempPrice;                                        
+                    }               
+                    //if the selected cheese pizza size does not exist in the cart
+                    else {
+                        if(size === "Small 12\""){
+                        //small cheese pizza 
+                        sessionStorage.setItem("small-cheese-pizza-type-key", type);
+                        sessionStorage.setItem("small-cheese-pizza-size-key", size);
+                        sessionStorage.setItem("small-cheese-pizza-qty-key", "1");
+                        sessionStorage.setItem("small-cheese-pizza-orig-price-key", price);
+                        
+                        //small cheese pizza li 
+                        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("small-cheese-pizza-type-key")}</span>
+                                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("small-cheese-pizza-size-key")}</span>
+                                                                            <div class="qty-div">Qty:<span id="small-cheese-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("small-cheese-pizza-qty-key")}</span></div>
+                                                                            <div class="cost-div">$<span id="small-cheese-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("small-cheese-pizza-orig-price-key")}</span></div>
+                                                                        </li>`;
+                        }
+                        else if(size === "Medium 14\""){
+                        //medium cheese pizza 
+                        sessionStorage.setItem("medium-cheese-pizza-type-key", type);
+                        sessionStorage.setItem("medium-cheese-pizza-size-key", size);
+                        sessionStorage.setItem("medium-cheese-pizza-qty-key", "1");
+                        sessionStorage.setItem("medium-cheese-pizza-orig-price-key", price);
+
+                        //medium cheese pizza li
+                        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("medium-cheese-pizza-type-key")}</span>
+                                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("medium-cheese-pizza-size-key")}</span>
+                                                                            <div class="qty-div">Qty:<span id="medium-cheese-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("medium-cheese-pizza-qty-key")}</span></div>
+                                                                            <div class="cost-div">$<span id="medium-cheese-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("medium-cheese-pizza-orig-price-key")}</span></div>
+                                                                        </li>`;
+                        }
+                        else if(size === "Large 16\""){
+                        //large cheese pizza
+                        sessionStorage.setItem("large-cheese-pizza-type-key", type);
+                        sessionStorage.setItem("large-cheese-pizza-size-key", size);
+                        sessionStorage.setItem("large-cheese-pizza-qty-key", "1");
+                        sessionStorage.setItem("large-cheese-pizza-orig-price-key", price);                                                
+
+                        //large cheese pizza li  
+                        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("large-cheese-pizza-type-key")}</span>
+                                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("large-cheese-pizza-size-key")}</span>
+                                                                            <div class="qty-div">Qty:<span id="large-cheese-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("large-cheese-pizza-qty-key")}</span></div>
+                                                                            <div class="cost-div">$<span id="large-cheese-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("large-cheese-pizza-orig-price-key")}</span></div>
+                                                                        </li>`;   
+                        }                                           
+                    }
+                } 
+            }
+
+            const addPepperoniToCart = (type, size, price) => {
+                if(type === "Pepperoni"){
+                    //if small pepperoni pizza already exists in the cart
+                    if(sessionStorage.getItem("small-pepperoni-pizza-size-key") === size){
+                        let tempQty = Number(sessionStorage.getItem("small-pepperoni-pizza-qty-key"));
+                        let tempPrice = Number(sessionStorage.getItem("small-pepperoni-pizza-orig-price-key"));
+                        tempQty += 1;
+                        tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+                        let stringTempQty = tempQty.toString();
+                        let stringTempPrice = tempPrice.toString();
+                        sessionStorage.setItem("small-pepperoni-pizza-qty-key", stringTempQty);
+                        sessionStorage.setItem("small-pepperoni-pizza-new-price-key", stringTempPrice);
+                        console.log(stringTempQty);   
+                        console.log(stringTempPrice);
+                        document.querySelector("#small-pepperoni-pizza-qty").innerHTML = stringTempQty; 
+                        document.querySelector("#small-pepperoni-pizza-cost").innerHTML = stringTempPrice;                   
+                    }   
+                    //if medium pepperoni pizza already exists in the cart
+                    else if(sessionStorage.getItem("medium-pepperoni-pizza-size-key") === size){
+                        let tempQty = Number(sessionStorage.getItem("medium-pepperoni-pizza-qty-key"));
+                        let tempPrice = Number(sessionStorage.getItem("medium-pepperoni-pizza-orig-price-key"));
+                        tempQty += 1;
+                        tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+                        let stringTempQty = tempQty.toString();
+                        let stringTempPrice = tempPrice.toString();
+                        sessionStorage.setItem("medium-pepperoni-pizza-qty-key", stringTempQty);
+                        sessionStorage.setItem("medium-pepperoni-pizza-new-price-key", stringTempPrice);
+                        console.log(stringTempQty);   
+                        document.querySelector("#medium-pepperoni-pizza-qty").innerHTML = stringTempQty; 
+                        document.querySelector("#medium-pepperoni-pizza-cost").innerHTML = stringTempPrice;                    
+                    }   
+                    //if large pepperoni pizza already exists in the cart
+                    else if(sessionStorage.getItem("large-pepperoni-pizza-size-key") === size){
+                        let tempQty = Number(sessionStorage.getItem("large-pepperoni-pizza-qty-key"));
+                        let tempPrice = Number(sessionStorage.getItem("large-pepperoni-pizza-orig-price-key"));
+                        tempQty += 1;
+                        tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+                        let stringTempQty = tempQty.toString();
+                        let stringTempPrice = tempPrice.toString();
+                        sessionStorage.setItem("large-pepperoni-pizza-qty-key", stringTempQty);
+                        sessionStorage.setItem("large-pepperoni-pizza-new-price-key", stringTempPrice);
+                        console.log(stringTempQty);   
+                        document.querySelector("#large-pepperoni-pizza-qty").innerHTML = stringTempQty; 
+                        document.querySelector("#large-pepperoni-pizza-cost").innerHTML = stringTempPrice;                                        
+                    }               
+                    //if the selected pepperoni pizza size does not exist in the cart
+                    else {
+                        if(size === "Small 12\""){
+                        //small pepperoni pizza 
+                        sessionStorage.setItem("small-pepperoni-pizza-type-key", type);
+                        sessionStorage.setItem("small-pepperoni-pizza-size-key", size);
+                        sessionStorage.setItem("small-pepperoni-pizza-qty-key", "1");
+                        sessionStorage.setItem("small-pepperoni-pizza-orig-price-key", price);
+                        
+                        //small pepperoni pizza li 
+                        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("small-pepperoni-pizza-type-key")}</span>
+                                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("small-pepperoni-pizza-size-key")}</span>
+                                                                            <div class="qty-div">Qty:<span id="small-pepperoni-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("small-pepperoni-pizza-qty-key")}</span></div>
+                                                                            <div class="cost-div">$<span id="small-pepperoni-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("small-pepperoni-pizza-orig-price-key")}</span></div>
+                                                                        </li>`;
+                        }
+                        else if(size === "Medium 14\""){
+                        //medium pepperoni pizza 
+                        sessionStorage.setItem("medium-pepperoni-pizza-type-key", type);
+                        sessionStorage.setItem("medium-pepperoni-pizza-size-key", size);
+                        sessionStorage.setItem("medium-pepperoni-pizza-qty-key", "1");
+                        sessionStorage.setItem("medium-pepperoni-pizza-orig-price-key", price);
+
+                        //medium pepperoni pizza li
+                        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("medium-pepperoni-pizza-type-key")}</span>
+                                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("medium-pepperoni-pizza-size-key")}</span>
+                                                                            <div class="qty-div">Qty:<span id="medium-pepperoni-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("medium-pepperoni-pizza-qty-key")}</span></div>
+                                                                            <div class="cost-div">$<span id="medium-pepperoni-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("medium-pepperoni-pizza-orig-price-key")}</span></div>
+                                                                        </li>`;
+                        }
+                        else if(size === "Large 16\""){
+                        //large pepperoni pizza
+                        sessionStorage.setItem("large-pepperoni-pizza-type-key", type);
+                        sessionStorage.setItem("large-pepperoni-pizza-size-key", size);
+                        sessionStorage.setItem("large-pepperoni-pizza-qty-key", "1");
+                        sessionStorage.setItem("large-pepperoni-pizza-orig-price-key", price);                                                
+
+                        //large pepperoni pizza li  
+                        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("large-pepperoni-pizza-type-key")}</span>
+                                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("large-pepperoni-pizza-size-key")}</span>
+                                                                            <div class="qty-div">Qty:<span id="large-pepperoni-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("large-pepperoni-pizza-qty-key")}</span></div>
+                                                                            <div class="cost-div">$<span id="large-pepperoni-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("large-pepperoni-pizza-orig-price-key")}</span></div>
+                                                                        </li>`;   
+                        }                                           
+                    }
+                }   
+            }
+
+            const addHawaiianToCart = (type, size, price) => {
+                if(type === "Hawaiian"){
+                    //if small hawaiian pizza already exists in the cart
+                    if(sessionStorage.getItem("small-hawaiian-pizza-size-key") === size){
+                        let tempQty = Number(sessionStorage.getItem("small-hawaiian-pizza-qty-key"));
+                        let tempPrice = Number(sessionStorage.getItem("small-hawaiian-pizza-orig-price-key"));
+                        tempQty += 1;
+                        tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+                        let stringTempQty = tempQty.toString();
+                        let stringTempPrice = tempPrice.toString();
+                        sessionStorage.setItem("small-hawaiian-pizza-qty-key", stringTempQty);
+                        sessionStorage.setItem("small-hawaiian-pizza-new-price-key", stringTempPrice);
+                        console.log(stringTempQty);   
+                        console.log(stringTempPrice);
+                        document.querySelector("#small-hawaiian-pizza-qty").innerHTML = stringTempQty; 
+                        document.querySelector("#small-hawaiian-pizza-cost").innerHTML = stringTempPrice;                   
+                    }   
+                    //if medium hawaiian pizza already exists in the cart
+                    else if(sessionStorage.getItem("medium-hawaiian-pizza-size-key") === size){
+                        let tempQty = Number(sessionStorage.getItem("medium-hawaiian-pizza-qty-key"));
+                        let tempPrice = Number(sessionStorage.getItem("medium-hawaiian-pizza-orig-price-key"));
+                        tempQty += 1;
+                        tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+                        let stringTempQty = tempQty.toString();
+                        let stringTempPrice = tempPrice.toString();
+                        sessionStorage.setItem("medium-hawaiian-pizza-qty-key", stringTempQty);
+                        sessionStorage.setItem("medium-hawaiian-pizza-new-price-key", stringTempPrice);
+                        console.log(stringTempQty);   
+                        document.querySelector("#medium-hawaiian-pizza-qty").innerHTML = stringTempQty; 
+                        document.querySelector("#medium-hawaiian-pizza-cost").innerHTML = stringTempPrice;                    
+                    }   
+                    //if large hawaiian pizza already exists in the cart
+                    else if(sessionStorage.getItem("large-hawaiian-pizza-size-key") === size){
+                        let tempQty = Number(sessionStorage.getItem("large-hawaiian-pizza-qty-key"));
+                        let tempPrice = Number(sessionStorage.getItem("large-hawaiian-pizza-orig-price-key"));
+                        tempQty += 1;
+                        tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+                        let stringTempQty = tempQty.toString();
+                        let stringTempPrice = tempPrice.toString();
+                        sessionStorage.setItem("large-hawaiian-pizza-qty-key", stringTempQty);
+                        sessionStorage.setItem("large-hawaiian-pizza-new-price-key", stringTempPrice);
+                        console.log(stringTempQty);   
+                        document.querySelector("#large-hawaiian-pizza-qty").innerHTML = stringTempQty; 
+                        document.querySelector("#large-hawaiian-pizza-cost").innerHTML = stringTempPrice;                                        
+                    }               
+                    //if the selected hawaiian pizza size does not exist in the cart
+                    else {
+                        if(size === "Small 12\""){
+                        //small hawaiian pizza 
+                        sessionStorage.setItem("small-hawaiian-pizza-type-key", type);
+                        sessionStorage.setItem("small-hawaiian-pizza-size-key", size);
+                        sessionStorage.setItem("small-hawaiian-pizza-qty-key", "1");
+                        sessionStorage.setItem("small-hawaiian-pizza-orig-price-key", price);
+                        
+                        //small hawaiian pizza li 
+                        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("small-hawaiian-pizza-type-key")}</span>
+                                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("small-hawaiian-pizza-size-key")}</span>
+                                                                            <div class="qty-div">Qty:<span id="small-hawaiian-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("small-hawaiian-pizza-qty-key")}</span></div>
+                                                                            <div class="cost-div">$<span id="small-hawaiian-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("small-hawaiian-pizza-orig-price-key")}</span></div>
+                                                                        </li>`;
+                        }
+                        else if(size === "Medium 14\""){
+                        //medium hawaiian pizza 
+                        sessionStorage.setItem("medium-hawaiian-pizza-type-key", type);
+                        sessionStorage.setItem("medium-hawaiian-pizza-size-key", size);
+                        sessionStorage.setItem("medium-hawaiian-pizza-qty-key", "1");
+                        sessionStorage.setItem("medium-hawaiian-pizza-orig-price-key", price);
+
+                        //medium hawaiian pizza li
+                        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("medium-hawaiian-pizza-type-key")}</span>
+                                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("medium-hawaiian-pizza-size-key")}</span>
+                                                                            <div class="qty-div">Qty:<span id="medium-hawaiian-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("medium-hawaiian-pizza-qty-key")}</span></div>
+                                                                            <div class="cost-div">$<span id="medium-hawaiian-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("medium-hawaiian-pizza-orig-price-key")}</span></div>
+                                                                        </li>`;
+                        }
+                        else if(size === "Large 16\""){
+                        //large hawaiian pizza
+                        sessionStorage.setItem("large-hawaiian-pizza-type-key", type);
+                        sessionStorage.setItem("large-hawaiian-pizza-size-key", size);
+                        sessionStorage.setItem("large-hawaiian-pizza-qty-key", "1");
+                        sessionStorage.setItem("large-hawaiian-pizza-orig-price-key", price);                                                
+
+                        //large hawaiian pizza li  
+                        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("large-hawaiian-pizza-type-key")}</span>
+                                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("large-hawaiian-pizza-size-key")}</span>
+                                                                            <div class="qty-div">Qty:<span id="large-hawaiian-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("large-hawaiian-pizza-qty-key")}</span></div>
+                                                                            <div class="cost-div">$<span id="large-hawaiian-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("large-hawaiian-pizza-orig-price-key")}</span></div>
+                                                                        </li>`;   
+                        }                                           
+                    }
+                }   
+            }
+
+            const addBuffaloToCart = (type, size, price) => {
+                if(type === "Buffalo"){
+                    //if small buffalo pizza already exists in the cart
+                    if(sessionStorage.getItem("small-buffalo-pizza-size-key") === size){
+                        let tempQty = Number(sessionStorage.getItem("small-buffalo-pizza-qty-key"));
+                        let tempPrice = Number(sessionStorage.getItem("small-buffalo-pizza-orig-price-key"));
+                        tempQty += 1;
+                        tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+                        let stringTempQty = tempQty.toString();
+                        let stringTempPrice = tempPrice.toString();
+                        sessionStorage.setItem("small-buffalo-pizza-qty-key", stringTempQty);
+                        sessionStorage.setItem("small-buffalo-pizza-new-price-key", stringTempPrice);
+                        console.log(stringTempQty);   
+                        console.log(stringTempPrice);
+                        document.querySelector("#small-buffalo-pizza-qty").innerHTML = stringTempQty; 
+                        document.querySelector("#small-buffalo-pizza-cost").innerHTML = stringTempPrice;                   
+                    }   
+                    //if medium buffalo pizza already exists in the cart
+                    else if(sessionStorage.getItem("medium-buffalo-pizza-size-key") === size){
+                        let tempQty = Number(sessionStorage.getItem("medium-buffalo-pizza-qty-key"));
+                        let tempPrice = Number(sessionStorage.getItem("medium-buffalo-pizza-orig-price-key"));
+                        tempQty += 1;
+                        tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+                        let stringTempQty = tempQty.toString();
+                        let stringTempPrice = tempPrice.toString();
+                        sessionStorage.setItem("medium-buffalo-pizza-qty-key", stringTempQty);
+                        sessionStorage.setItem("medium-buffalo-pizza-new-price-key", stringTempPrice);
+                        console.log(stringTempQty);   
+                        document.querySelector("#medium-buffalo-pizza-qty").innerHTML = stringTempQty; 
+                        document.querySelector("#medium-buffalo-pizza-cost").innerHTML = stringTempPrice;                    
+                    }   
+                    //if large buffalo pizza already exists in the cart
+                    else if(sessionStorage.getItem("large-buffalo-pizza-size-key") === size){
+                        let tempQty = Number(sessionStorage.getItem("large-buffalo-pizza-qty-key"));
+                        let tempPrice = Number(sessionStorage.getItem("large-buffalo-pizza-orig-price-key"));
+                        tempQty += 1;
+                        tempPrice = tempQty*tempPrice;//we always want the original price times the new qty
+                        let stringTempQty = tempQty.toString();
+                        let stringTempPrice = tempPrice.toString();
+                        sessionStorage.setItem("large-buffalo-pizza-qty-key", stringTempQty);
+                        sessionStorage.setItem("large-buffalo-pizza-new-price-key", stringTempPrice);
+                        console.log(stringTempQty);   
+                        document.querySelector("#large-buffalo-pizza-qty").innerHTML = stringTempQty; 
+                        document.querySelector("#large-buffalo-pizza-cost").innerHTML = stringTempPrice;                                        
+                    }               
+                    //if the selected buffalo pizza size does not exist in the cart
+                    else {
+                        if(size === "Small 12\""){
+                        //small hawaiian pizza 
+                        sessionStorage.setItem("small-buffalo-pizza-type-key", type);
+                        sessionStorage.setItem("small-buffalo-pizza-size-key", size);
+                        sessionStorage.setItem("small-buffalo-pizza-qty-key", "1");
+                        sessionStorage.setItem("small-buffalo-pizza-orig-price-key", price);
+                        
+                        //small hawaiian pizza li 
+                        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("small-buffalo-pizza-type-key")}</span>
+                                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("small-buffalo-pizza-size-key")}</span>
+                                                                            <div class="qty-div">Qty:<span id="small-buffalo-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("small-buffalo-pizza-qty-key")}</span></div>
+                                                                            <div class="cost-div">$<span id="small-buffalo-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("small-buffalo-pizza-orig-price-key")}</span></div>
+                                                                        </li>`;
+                        }
+                        else if(size === "Medium 14\""){
+                        //medium buffalo pizza 
+                        sessionStorage.setItem("medium-buffalo-pizza-type-key", type);
+                        sessionStorage.setItem("medium-buffalo-pizza-size-key", size);
+                        sessionStorage.setItem("medium-buffalo-pizza-qty-key", "1");
+                        sessionStorage.setItem("medium-buffalo-pizza-orig-price-key", price);
+
+                        //medium buffalo pizza li
+                        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("medium-buffalo-pizza-type-key")}</span>
+                                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("medium-buffalo-pizza-size-key")}</span>
+                                                                            <div class="qty-div">Qty:<span id="medium-buffalo-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("medium-buffalo-pizza-qty-key")}</span></div>
+                                                                            <div class="cost-div">$<span id="medium-buffalo-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("medium-buffalo-pizza-orig-price-key")}</span></div>
+                                                                        </li>`;
+                        }
+                        else if(size === "Large 16\""){
+                        //large buffalo pizza
+                        sessionStorage.setItem("large-buffalo-pizza-type-key", type);
+                        sessionStorage.setItem("large-buffalo-pizza-size-key", size);
+                        sessionStorage.setItem("large-buffalo-pizza-qty-key", "1");
+                        sessionStorage.setItem("large-buffalo-pizza-orig-price-key", price);                                                
+
+                        //large buffalo pizza li  
+                        document.querySelector(".cart-ul").innerHTML += `<li class="cart-item">
+                                                                            <span class="li-span-pizza-type">${sessionStorage.getItem("large-buffalo-pizza-type-key")}</span>
+                                                                            <span class="li-span-pizza-size">${sessionStorage.getItem("large-buffalo-pizza-size-key")}</span>
+                                                                            <div class="qty-div">Qty:<span id="large-buffalo-pizza-qty" class="li-span-pizza-qty">${sessionStorage.getItem("large-buffalo-pizza-qty-key")}</span></div>
+                                                                            <div class="cost-div">$<span id="large-buffalo-pizza-cost" class="li-span-pizza-cost">${sessionStorage.getItem("large-buffalo-pizza-orig-price-key")}</span></div>
+                                                                        </li>`;   
+                        }                                           
+                    }
+                }   
+            }
+            //this last brack below goes to the outermost if statement 
+        }
+        else {
+        // Too bad, no sessionStorage for us
+        console.log("no bueno :(")
+        }
+
+
+        //Testing grabbing sessionStorage values saved on a different page 
+        let addressType = sessionStorage.getItem("address-type-save");
+        let streetAddress = sessionStorage.getItem("street-address-save");
+        let suiteAptNum = sessionStorage.getItem("suite-apt-num-save");
+        let city = sessionStorage.getItem("city-save");
+        let state = sessionStorage.getItem("state-save");
+        let zipCode = sessionStorage.getItem("zipcode-save");
+
+        // document.querySelector("#proceed-button").addEventListener("click", (event) => {
+        //     console.log(addressType);
+        //     console.log(streetAddress);
+        //     console.log(suiteAptNum);
+        //     console.log(city);
+        //     console.log(state);
+        //     console.log(zipCode);
+        // });
+    </script>
+</body>
+</html>
